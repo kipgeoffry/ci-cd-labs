@@ -9,9 +9,9 @@ pipeline {
       }
     }
      stage('Check hostname') {
-          steps {
-            sh 'cat /etc/hostname'
-          }
-        }
+       steps {
+         sh 'cat /etc/hostname'
+       }
+     }
   }
 }
