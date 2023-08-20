@@ -1,6 +1,9 @@
 pipeline {
   agent {
-    dockerContainer { image 'node:16-alpine' }
+    dockerContainer {
+      image 'node:16-alpine'
+    }
+
   }
   stages {
     stage('Check nodeJs') {
@@ -8,10 +11,12 @@ pipeline {
         sh 'node --version'
       }
     }
-     stage('Check hostname') {
-          steps {
-            sh 'cat /etc/hostname'
-          }
-        }
+
+    stage('Check hostname') {
+      steps {
+        sh 'cat /etc/hostname'
+      }
+    }
+
   }
 }
