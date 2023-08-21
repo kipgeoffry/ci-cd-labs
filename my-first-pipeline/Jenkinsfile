@@ -7,9 +7,6 @@ pipeline {
       steps {
         sh 'mvn --version'
       }
-      steps {
-        sh 'ping 8.8.8.8'
-      }
     }
   }
 }
