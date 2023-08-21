@@ -1,11 +1,11 @@
 pipeline {
   agent {
-    dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
+    dockerContainer { image 'kipgeoffry/jenkins-agent-maven:3.8.1' }
   }
   stages {
     stage('Test') {
       steps {
-        sh 'python3 --version'
+        sh 'mvn --version'
       }
     }
   }
