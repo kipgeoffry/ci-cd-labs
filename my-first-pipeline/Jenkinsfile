@@ -1,24 +1,12 @@
 pipeline {
-    agent none
-    stages {
-        stage('Back-end') {
-            agent {
-                dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
-            }
-            steps {
-                sh 'python3 --version'
-            }
-        }
-        stage('Front-end') {
-            agent {
-                dockerContainer { image 'kipgeoffry/jenkins-agent-maven:3.8.1' }
-            }
-            steps {
-                sh 'mvn --version'
-            }
-            steps {
-                sh 'ping 4.2.2.2'
-            }
-        }
+  agent {
+    docker { image 'kipgeoffry/jenkins-agent-python:3.9' }
+  }
+  stages {
+    stage('Test') {
+      steps {
+        sh 'python3 --version'
+      }
     }
+  }
 }
