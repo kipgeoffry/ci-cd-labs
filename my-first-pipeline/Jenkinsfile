@@ -1,19 +1,20 @@
 pipeline {
-  agent {
-    dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
-  }
-  stages{
-    stage('Check node') {
+  agent none
+  stages {
+    stage('Back-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-python:3.1' }
+      }
       steps {
         sh 'python3 --version'
       }
     }
-    stage('Check hostname') {
-      steps {
-        sh 'cat /etc/hostname'
+    stage('Front-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-node:20.5.1'}
       }
       steps {
-        sh 'ping 8.8.4.4'
+        sh 'node --version'
       }
     }
   }
