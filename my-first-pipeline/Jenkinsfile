@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    dockerContainer { image 'kipgeoffry/myjenkinsagent:python' }
+    dockerContainer { image 'node:16-alpine' }
   }
   stages {
     stage('Check python') {
