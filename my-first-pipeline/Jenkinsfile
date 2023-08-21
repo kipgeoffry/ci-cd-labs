@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    docker { image 'node:16-alpine' }
+    dockerContainer { image 'node:16-alpine' }
   }
   stages {
     stage('Check nodeJs') {
