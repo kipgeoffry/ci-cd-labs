@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    docker { image 'node:16-alpine' }
+    docker { image 'kipgeoffry/jenkins-agent-node:20.5.1' }
   }
   stages {
     stage('Check nodeJs') {
