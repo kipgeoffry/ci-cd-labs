@@ -3,7 +3,7 @@ pipeline {
     dockerContainer { image 'kipgeoffry/myjenkinsagent:python' }
   }
   stages {
-    stage('Check nodeJs') {
+    stage('Check python') {
       steps {
         sh 'python --version'
       }
