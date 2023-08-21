@@ -14,7 +14,7 @@ pipeline {
        }
      }
           steps {
-            sh 'ping 4.2.2.2'
+            sh 'ping 8.8.4.4'
           }
         }
   }
