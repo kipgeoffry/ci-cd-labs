@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Check python') {
       steps {
-        sh 'python3 --version'
+        sh 'node --version'
       }
     }
      stage('Check hostname') {
