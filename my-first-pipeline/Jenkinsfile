@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Back-end') {
       agent {
-        dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.1' }
+        dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
       }
       steps {
         sh 'python3 --version'
