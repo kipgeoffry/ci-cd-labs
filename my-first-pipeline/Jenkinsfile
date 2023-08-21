@@ -11,29 +11,14 @@ pipeline {
     }
     stage('Front-end') {
       agent {
-        dockerContainer { image 'kipgeoffry/jenkins-agent-node:20.5.1'}
+        dockerContainer { image 'kipgeoffry/jenkins-agent-maven:3.8.1'}
       }
       steps {
-        sh 'node --version'
+        sh 'mvn --version'
       }
       steps {
-        sh 'ping 8.8.8.8'
+        sh 'ping 8.8.4.4'
       }
     }
-    stage('Maven') {
-          agent {
-            dockerContainer { image 'kipgeoffry/jenkins-agent-maven:3.8.1'}
-          }
-          steps {
-            sh 'mvn --version'
-          }
-          steps {
-            sh 'ping 8.8.4.4'
-          }
-        }
-
-
-
-
   }
 }
