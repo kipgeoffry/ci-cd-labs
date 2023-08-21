@@ -1,9 +1,9 @@
 pipeline {
   agent {
-    dockerContainer { image 'node:18-alpine' }
+    dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
   }
   stages {
-    stage('Check python') {
+    stage('Check node') {
       steps {
         sh 'node --version'
       }
