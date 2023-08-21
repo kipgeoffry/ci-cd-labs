@@ -2,7 +2,7 @@ pipeline {
   agent {
     dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
   }
-  stages {
+  stages{
     stage('Check node') {
       steps {
         sh 'python3 --version'
@@ -12,10 +12,10 @@ pipeline {
        steps {
          sh 'cat /etc/hostname'
        }
-     }
-          steps {
+         steps {
             sh 'ping 8.8.4.4'
           }
-        }
-  }
+     }
+ }
+
 }
