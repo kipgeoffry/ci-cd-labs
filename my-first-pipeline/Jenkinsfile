@@ -1,17 +1,21 @@
 pipeline {
-  agent {
-    docker { image 'node:16-alpine' }
-  }
+  agent none
   stages {
-    stage('Check nodeJs') {
+    stage('Back-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-python:3.1' }
+      }
+      steps {
+        sh 'python3 --version'
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-node:20.5.1'}
+      }
       steps {
         sh 'node --version'
       }
     }
-     stage('Check hostname') {
-       steps {
-         sh 'cat /etc/hostname'
-       }
-     }
   }
 }
