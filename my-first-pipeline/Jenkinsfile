@@ -20,5 +20,20 @@ pipeline {
         sh 'ping 8.8.8.8'
       }
     }
+    stage('Maven') {
+          agent {
+            dockerContainer { image 'kipgeoffry/jenkins-agent-maven:3.8.1'}
+          }
+          steps {
+            sh 'mvn --version'
+          }
+          steps {
+            sh 'ping 8.8.4.4'
+          }
+        }
+
+
+
+
   }
 }
