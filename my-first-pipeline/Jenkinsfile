@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    docker { image 'kipgeoffry/jenkins-agent-python:3.9' }
+    dockerContainer { image 'kipgeoffry/jenkins-agent-python:3.9' }
   }
   stages {
     stage('Test') {
