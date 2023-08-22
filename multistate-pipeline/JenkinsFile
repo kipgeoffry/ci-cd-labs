@@ -1,0 +1,21 @@
+pipeline {
+  agent none
+  stages {
+    stage('Back-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-maven:3.8.1' }
+      }
+      steps {
+        sh 'mvn --version'
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'kipgeoffry/jenkins-agent-node:20.5.1' }
+      }
+      steps {
+        sh 'node --version'
+      }
+    }
+  }
+}
