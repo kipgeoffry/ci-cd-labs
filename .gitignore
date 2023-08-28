@@ -1,3 +1,3 @@
-.idea*
-java-maven-sonar-argocd-helm-k8s/.idea/*
-java-maven-sonar-argocd-helm-k8s/spring-boot-app/target/*
+.idea/
+java-maven-sonar-argocd-helm-k8s/.idea/
+java-maven-sonar-argocd-helm-k8s/spring-boot-app/target/
