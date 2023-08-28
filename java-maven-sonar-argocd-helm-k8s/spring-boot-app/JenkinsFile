@@ -2,7 +2,7 @@ pipeline {
   agent {
     dockerContainer {
       image 'kipgeoffry/jenkins-agent-maven:3.8.1'
-      //args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/root/.m2' // mount Docker socket to access the host's Docker daemon,second volume is for caching to avoid downloading of dependencies on each build
     }
   }
   stages {
@@ -12,7 +12,7 @@ pipeline {
         //git branch: 'dev', url: 'https://github.com/kipgeoffry/ci-cd-labs.git'
       }
     }
-    stage('Build App and Test') {
+    stage('Build app and test') {
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
@@ -29,8 +29,7 @@ pipeline {
         }
       }
     }
-    stage('Build Image and Push Docker Image') {
-      agent any //to make the local jenkins server the agent for building and push docker image
+    stage('Build Docker Image') {
       environment {
         DOCKER_IMAGE = "kipgeoffry/ci-cd-labs:v1.${BUILD_NUMBER}"
         DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
@@ -38,15 +37,11 @@ pipeline {
       }
       steps {
         script {
-            sh '''
-                cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-                pwd
-                ls -al
-            '''
-              //&& docker build -t ${DOCKER_IMAGE} .
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
+            def customImage = docker.image("${DOCKER_IMAGE}")
             docker.withRegistry('https://hub.docker.com/', "dockerHub-cred") {
-                dockerImage.push()
+                customImage.push()
+                customImage.push('latest')
             }
         }
       }
