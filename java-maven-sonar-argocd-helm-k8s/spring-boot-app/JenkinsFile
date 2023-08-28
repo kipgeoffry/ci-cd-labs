@@ -7,7 +7,7 @@ pipeline {
     }
   }
   stages {
-    stage('Build app and test') {
+    stage('Build and Test App') {
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
