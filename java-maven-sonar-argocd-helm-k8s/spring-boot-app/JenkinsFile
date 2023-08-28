@@ -2,7 +2,7 @@ pipeline {
   agent {
     dockerContainer {
       image 'kipgeoffry/jenkins-agent-maven:3.8.1'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+      //args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
   stages {
@@ -30,6 +30,7 @@ pipeline {
       }
     }
     stage('Build Image and Push Docker Image') {
+      agent any //to make the local jenkins server the agent for building and push docker image
       environment {
         DOCKER_IMAGE = "kipgeoffry/ci-cd-labs:v1.${BUILD_NUMBER}"
         DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
