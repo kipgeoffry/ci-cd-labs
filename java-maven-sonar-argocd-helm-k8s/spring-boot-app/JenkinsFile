@@ -1,0 +1,49 @@
+pipeline {
+  agent {
+    dockerContainer {
+      image 'kipgeoffry/jenkins-agent-maven:3.8.1'
+      //args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+    }
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        sh 'echo passed'
+        //git branch: 'dev', url: 'https://github.com/kipgeoffry/ci-cd-labs.git'
+      }
+    }
+    stage('Build App and Test') {
+      steps {
+        sh 'ls -ltr'
+        // build the project and create a JAR file
+        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
+      }
+    }
+    stage('Static Code Analysis') {
+      environment {
+        SONAR_URL = "http://192.168.5.43:9000"
+      }
+      steps {
+        withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+        }
+      }
+    }
+    stage('Build Image and Push Docker Image') {
+      environment {
+        DOCKER_IMAGE = "kipgeoffry/ci-cd-labs:${BUILD_NUMBER}"
+        DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+        REGISTRY_CREDENTIALS = credentials('dockerHub-cred')
+      }
+      steps {
+        script {
+            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
+            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            docker.withRegistry('https://hub.docker.com/', "docker-cred") {
+                dockerImage.push()
+            }
+        }
+      }
+    }
+  }
+}
